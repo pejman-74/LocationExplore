@@ -18,7 +18,7 @@ android {
         versionCode 1
         versionName '1.0'
 
-        testInstrumentationRunner 'com.locationexplorer.HiltTestRunner'
+        testInstrumentationRunner 'com.HiltTestRunner'
         vectorDrawables {
             useSupportLibrary true
         }
@@ -47,6 +47,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion '1.5.10'
+    }
+    packagingOptions {
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
+        exclude "**/attach_hotspot_windows.dll"
+        exclude "META-INF/licenses/**"
     }
 }
 
