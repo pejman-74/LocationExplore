@@ -7,4 +7,5 @@ interface AppDatastore {
     suspend fun getUserLastLocation(): SimpleLocation
     suspend fun setLastUpdateTime(time: Long)
     suspend fun getLastUpdateTime(): Long
+    suspend fun clearDataStore()
 }

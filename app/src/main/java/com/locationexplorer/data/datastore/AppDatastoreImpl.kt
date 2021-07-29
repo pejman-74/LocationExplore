@@ -68,4 +68,8 @@ class AppDatastoreImpl(
         preferences[LAST_UPDATE_TIME] ?: 0
     }.first()
 
+    override suspend fun clearDataStore() {
+        appDatastore.edit { it.clear() }
+    }
+
 }
