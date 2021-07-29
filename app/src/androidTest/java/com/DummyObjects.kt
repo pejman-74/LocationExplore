@@ -1,7 +1,7 @@
 package com
 
-import com.locationexplorer.data.model.response.Location
-import com.locationexplorer.data.model.response.Venue
+import com.locationexplorer.data.model.database.Location
+import com.locationexplorer.data.model.database.Venue
 
 val location =
     Location(

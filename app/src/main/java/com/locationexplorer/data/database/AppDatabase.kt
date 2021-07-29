@@ -6,8 +6,8 @@ import androidx.room.TypeConverters
 import com.locationexplorer.data.database.converter.StringListTypeConverter
 import com.locationexplorer.data.database.dao.LocationDao
 import com.locationexplorer.data.database.dao.VenueDao
-import com.locationexplorer.data.model.response.Location
-import com.locationexplorer.data.model.response.Venue
+import com.locationexplorer.data.model.database.Location
+import com.locationexplorer.data.model.database.Venue
 
 @Database(entities = [Venue::class, Location::class], version = 1)
 @TypeConverters(StringListTypeConverter::class)

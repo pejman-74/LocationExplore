@@ -1,39 +1,33 @@
 package com.locationexplorer.data.model.response
 
-
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-@Entity
-data class Location(
-    @Transient
-    @PrimaryKey
-    val venueId: String,
+data class JsonLocation(
     @Json(name = "address")
-    val address: String,
+    val address: String?,
     @Json(name = "cc")
-    val cc: String,
+    val cc: String?,
     @Json(name = "city")
-    val city: String,
+    val city: String?,
     @Json(name = "country")
-    val country: String,
+    val country: String?,
     @Json(name = "crossStreet")
-    val crossStreet: String,
+    val crossStreet: String?,
     @Json(name = "distance")
-    val distance: Int,
+    val distance: Int?,
     @Json(name = "formattedAddress")
-    val formattedAddress: List<String>,
+    val formattedAddress: List<String>?,
     @Json(name = "lat")
-    val lat: Double,
+    val lat: Double?,
     @Json(name = "lng")
-    val lng: Double,
+    val lng: Double?,
     @Json(name = "neighborhood")
-    val neighborhood: String,
+    val neighborhood: String?,
     @Json(name = "postalCode")
-    val postalCode: String,
+    val postalCode: String?,
     @Json(name = "state")
-    val state: String
+    val state: String?
 )
+

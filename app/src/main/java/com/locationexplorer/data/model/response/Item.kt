@@ -9,5 +9,5 @@ data class Item(
     @Json(name = "referralId")
     val referralId: String,
     @Json(name = "venue")
-    val venue: Venue
+    val venue: JsonVenue
 )
