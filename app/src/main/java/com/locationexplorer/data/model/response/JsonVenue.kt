@@ -1,6 +1,7 @@
 package com.locationexplorer.data.model.response
 
 
+import com.locationexplorer.data.model.database.Venue
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -12,4 +13,6 @@ data class JsonVenue(
     val name: String,
     @Json(name = "location")
     val location: JsonLocation
-)
+) {
+    fun toVenue(): Venue = Venue(id, name)
+}

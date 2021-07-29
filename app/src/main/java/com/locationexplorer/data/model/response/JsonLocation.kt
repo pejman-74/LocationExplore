@@ -1,5 +1,6 @@
 package com.locationexplorer.data.model.response
 
+import com.locationexplorer.data.model.database.Location
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -29,5 +30,21 @@ data class JsonLocation(
     val postalCode: String?,
     @Json(name = "state")
     val state: String?
-)
+) {
+    fun toLocation(): Location = Location(
+        "",
+        address ?: "",
+        cc ?: "",
+        city ?: "",
+        country ?: "",
+        crossStreet ?: "",
+        distance ?: 0,
+        formattedAddress ?: emptyList(),
+        lat ?: 0.0,
+        lng ?: 0.0,
+        neighborhood ?: "",
+        postalCode ?: "",
+        state ?: ""
+    )
+}
 
