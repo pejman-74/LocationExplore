@@ -1,5 +1,6 @@
 package com.locationexplorer.data.database.dao
 
+import androidx.annotation.VisibleForTesting
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,6 +14,10 @@ interface LocationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(locations: List<Location>)
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @Query("Select * from location")
+    fun getAllLocations(): List<Location>
 
     @Query("Delete from location")
     suspend fun clear()

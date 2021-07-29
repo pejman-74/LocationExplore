@@ -21,7 +21,7 @@ interface VenueDao {
 
     @VisibleForTesting(otherwise = NONE)
     @Query("Select * from venue")
-    fun getAllVenues(): Flow<List<Venue>>
+    suspend fun getAllVenues(): List<Venue>
 
     @Query("Delete from venue")
     suspend fun clear()
