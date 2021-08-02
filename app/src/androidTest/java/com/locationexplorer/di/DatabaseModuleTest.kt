@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @TestInstallIn(components = [SingletonComponent::class], replaces = [DatabaseModule::class])
@@ -15,8 +16,11 @@ import javax.inject.Singleton
 object DatabaseModuleTest {
     @Singleton
     @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).allowMainThreadQueries()
+    fun provideAppDatabase(
+        @ApplicationContext context: Context,
+    ): AppDatabase =
+        Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+            .setTransactionExecutor(Executors.newSingleThreadExecutor()).allowMainThreadQueries()
             .build()
 }
 
