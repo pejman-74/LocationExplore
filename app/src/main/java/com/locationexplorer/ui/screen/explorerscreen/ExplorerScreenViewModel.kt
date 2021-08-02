@@ -1,4 +1,4 @@
-package com.locationexplorer.ui
+package com.locationexplorer.ui.screen.explorerscreen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
