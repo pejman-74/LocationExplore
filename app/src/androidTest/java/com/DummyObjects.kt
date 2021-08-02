@@ -18,6 +18,7 @@ val venue = Venue("1", "coffeeShop")
 val simpleLocation = SimpleLocation(0.0, 0.0)
 
 const val totalResult = 78
+const val firstPageVenueId="5211b2a911d260884f42387a"
 const val firstPageJson = "{\n" +
         "    \"meta\": {\n" +
         "        \"code\": 200,\n" +
