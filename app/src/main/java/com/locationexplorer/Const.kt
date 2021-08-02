@@ -6,3 +6,4 @@ const val DEFAULT_SECTION="topPicks"
 const val BASE_URL="https://api.foursquare.com/v2/"
 const val DATABASE_NAME="LocationExplorerDB"
 const val DATASTORE_NAME="LocationExplorerDataStore"
+const val DATA_REFRESH_RATE=86400000//one day
