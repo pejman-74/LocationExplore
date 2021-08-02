@@ -1,12 +1,15 @@
 package com.locationexplorer.data.repository
 
 import androidx.room.withTransaction
+import com.locationexplorer.BuildConfig
 import com.locationexplorer.DATA_REFRESH_RATE
 import com.locationexplorer.data.api.ExploreApi
 import com.locationexplorer.data.database.AppDatabase
 import com.locationexplorer.data.database.relation.VenueAndLocation
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.holder.IndexHolder
+import com.locationexplorer.data.model.database.Location
+import com.locationexplorer.data.model.database.Venue
 import com.locationexplorer.data.model.share.SimpleLocation
 import com.locationexplorer.data.wapper.Resource
 import com.locationexplorer.util.ext.networkBoundResource
@@ -52,13 +55,10 @@ class RepositoryImpl(
                 val locations = explorerResponse.response.groups.first().items.map { item ->
                     item.venue.location.toLocation().copy(venueId = item.venue.id)
                 }
-                appDatabase.withTransaction {
-                    if (!isPaginationRequest)
-                        clearVenuesAndLocations()
-
-                    venueDao.insert(venues)
-                    locationDao.insert(locations)
-                }
+                if (BuildConfig.IS_TESTING.get())
+                    saveFetchResult(venues, locations, isPaginationRequest)
+                else
+                    saveFetchResultWithTransaction(venues, locations, isPaginationRequest)
             },
             shouldFetch = {
                 if (it.isEmpty())
@@ -86,6 +86,32 @@ class RepositoryImpl(
                 false
             }
         )
+    }
+
+    private suspend fun saveFetchResultWithTransaction(
+        venues: List<Venue>,
+        locations: List<Location>,
+        isPaginationRequest: Boolean
+    ) {
+        appDatabase.withTransaction {
+            if (!isPaginationRequest)
+                clearVenuesAndLocations()
+
+            venueDao.insert(venues)
+            locationDao.insert(locations)
+        }
+    }
+
+    private suspend fun saveFetchResult(
+        venues: List<Venue>,
+        locations: List<Location>,
+        isPaginationRequest: Boolean
+    ) {
+        if (!isPaginationRequest)
+            clearVenuesAndLocations()
+        venueDao.insert(venues)
+        locationDao.insert(locations)
+
     }
 
     override suspend fun clearVenuesAndLocations() {

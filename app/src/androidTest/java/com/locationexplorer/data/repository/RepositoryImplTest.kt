@@ -12,13 +12,9 @@ import com.locationexplorer.util.network.ConnectionChecker
 import com.locationexplorer.util.network.FakeConnectionChecker
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
@@ -72,7 +68,7 @@ class RepositoryImplTest {
      * return data and delete previews data's in db
      * */
     @Test
-    fun explore_paginationRequestFalse() = runBlocking {
+    fun explore_paginationRequestFalse() = runBlockingTest {
         var resources =
             repository.explore(simpleLocation, isPaginationRequest = false).take(2).toList()
         assertThat(resources.last().data?.size).isEqualTo(1)
@@ -87,7 +83,7 @@ class RepositoryImplTest {
      * return data WITHOUT delete previews data's in db
      * */
     @Test
-    fun explore_paginationRequestTrue() = runBlocking {
+    fun explore_paginationRequestTrue() = runBlockingTest {
         var resources =
             repository.explore(simpleLocation, isPaginationRequest = false).take(2).toList()
         assertThat(resources.last().data?.size).isEqualTo(1)
@@ -101,7 +97,7 @@ class RepositoryImplTest {
      * when explore() called with empty Database should return data
      * */
     @Test
-    fun explore_shouldFetchIfDatabaseIsEmpty() = runBlocking {
+    fun explore_shouldFetchIfDatabaseIsEmpty() = runBlockingTest {
         //make other shouldFetch conditions to false
         fakeConnectionChecker.isHaveConnection = false
         appDatastore.setLastUpdateTime(0)
@@ -116,7 +112,7 @@ class RepositoryImplTest {
      * when explore() called with force fetch should return data
      * */
     @Test
-    fun explore_shouldFetchIfForceFetchIsTrue() = runBlocking {
+    fun explore_shouldFetchIfForceFetchIsTrue() = runBlockingTest {
 
         //make other shouldFetch conditions to false
         fakeConnectionChecker.isHaveConnection = false
@@ -134,7 +130,7 @@ class RepositoryImplTest {
      * when explore() called with Connected connection should return data
      * */
     @Test
-    fun explore_shouldFetchOnConnectionAvailable() = runBlocking {
+    fun explore_shouldFetchOnConnectionAvailable() = runBlockingTest {
         fakeConnectionChecker.isHaveConnection = true
 
         //make other shouldFetch conditions to false
@@ -152,7 +148,7 @@ class RepositoryImplTest {
      * when explore() called old data's should return updated data
      * */
     @Test
-    fun explore_shouldFetchIfDataIsOld() = runBlocking {
+    fun explore_shouldFetchIfDataIsOld() = runBlockingTest {
 
 
         //make other shouldFetch conditions to false
@@ -171,7 +167,7 @@ class RepositoryImplTest {
      * when explore() called old data's should return updated data
      * */
     @Test
-    fun explore_shouldFetchIfLocationChanged() = runBlocking {
+    fun explore_shouldFetchIfLocationChanged() = runBlockingTest {
         //make other shouldFetch conditions to false
         appDatabase.venueDao().insert(venue)
         appDatabase.locationDao().insert(location)
@@ -187,7 +183,7 @@ class RepositoryImplTest {
      * when explore() called with all conditions is false should return cached data
      * */
     @Test
-    fun explore_shouldNOTFetchOnAllConditionsIsFalse() = runBlocking {
+    fun explore_shouldNOTFetchOnAllConditionsIsFalse() = runBlockingTest {
 
 
         //make All shouldFetch conditions to false
@@ -207,7 +203,7 @@ class RepositoryImplTest {
      * when explore() called add api throw exception should return [Resource.Error]
      * */
     @Test
-    fun explore_shouldReturnErrorType() = runBlocking {
+    fun explore_shouldReturnErrorType() = runBlockingTest {
         fakeExploreApi.shouldThrowIoException = true
         val resources =
             repository.explore(simpleLocation).take(2).toList()

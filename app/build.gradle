@@ -19,6 +19,7 @@ android {
         versionName '1.0'
 
         testInstrumentationRunner 'com.HiltTestRunner'
+        buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         vectorDrawables {
             useSupportLibrary true
         }

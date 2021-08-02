@@ -20,7 +20,6 @@ object DatabaseModuleTest {
         @ApplicationContext context: Context,
     ): AppDatabase =
         Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setTransactionExecutor(Executors.newSingleThreadExecutor()).allowMainThreadQueries()
-            .build()
+            .allowMainThreadQueries().build()
 }
 
