@@ -8,17 +8,17 @@ import com.locationexplorer.data.model.response.ExploreResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ExploreApi {
     @GET("venues/explore")
-    @FormUrlEncoded
     suspend fun explore(
-        @Field("ll") ll: String,
-        @Field("offset") offset: Int,
-        @Field("section") section: String = DEFAULT_SECTION,
-        @Field("limit") limit: Int = PAGE_SIZE,
-        @Field("client_id") clientId: String = BuildConfig.CLIENT_ID,
-        @Field("client_secret") clientSecret: String = BuildConfig.CLINET_SECRET,
-        @Field("v") apiVersion: Int = API_VERSION,
+        @Query("ll") ll: String,
+        @Query("offset") offset: Int,
+        @Query("section") section: String = DEFAULT_SECTION,
+        @Query("limit") limit: Int = PAGE_SIZE,
+        @Query("client_id") clientId: String = BuildConfig.CLIENT_ID,
+        @Query("client_secret") clientSecret: String = BuildConfig.CLINET_SECRET,
+        @Query("v") apiVersion: Int = API_VERSION,
     ): ExploreResponse
 }
