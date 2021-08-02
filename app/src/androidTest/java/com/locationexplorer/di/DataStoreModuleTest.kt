@@ -3,6 +3,7 @@ package com.locationexplorer.di
 import android.content.Context
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.datastore.AppDatastoreImpl
+import com.locationexplorer.data.datastore.FakeAppDatastore
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -22,5 +23,5 @@ object DataStoreModuleTest {
         @ApplicationContext context: Context,
         coroutineScope: CoroutineScope,
         moshi: Moshi
-    ): AppDatastore = AppDatastoreImpl(context, "TEST_DATASTORE", coroutineScope, moshi)
+    ): AppDatastore = FakeAppDatastore()
 }
