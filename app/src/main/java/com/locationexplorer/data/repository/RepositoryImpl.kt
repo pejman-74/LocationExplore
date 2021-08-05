@@ -77,7 +77,7 @@ class RepositoryImpl(
                     return@networkBoundResource true
 
                 // user location is changed
-                val userLastLocation = appDatastore.getUserLastLocation()
+                val userLastLocation = getLastLocation()
                 if (userLastLocation.lat != simpleLocation.lat &&
                     userLastLocation.long != simpleLocation.long
                 )
@@ -121,6 +121,10 @@ class RepositoryImpl(
 
     override suspend fun setLastLocation(simpleLocation: SimpleLocation) {
         appDatastore.setUserLastLocation(simpleLocation)
+    }
+
+    override suspend fun getLastLocation(): SimpleLocation {
+        return appDatastore.getUserLastLocation()
     }
 
     override suspend fun setLastUpdate(time: Long) {

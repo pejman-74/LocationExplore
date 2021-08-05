@@ -18,6 +18,7 @@ interface Repository {
     suspend fun clearVenuesAndLocations()
     suspend fun setLastUpdate(time: Long)
     suspend fun setLastLocation(simpleLocation: SimpleLocation)
+    suspend fun getLastLocation(): SimpleLocation
     fun setTotalResult(count: Int)
     fun setOffset(index: Int)
     fun getTotalResult(): Int
