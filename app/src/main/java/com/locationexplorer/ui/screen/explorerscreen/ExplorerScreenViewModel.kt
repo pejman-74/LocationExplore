@@ -97,7 +97,7 @@ class ExplorerScreenViewModel @Inject constructor(
     }
 
 
-    suspend fun getLastStoredLocation() = viewModelScope.launch {
+    suspend fun getLastStoredLocation() = viewModelScope.launch(coroutineDispatcher) {
         lastStoredLocation.value = repository.getLastLocation()
     }
 
