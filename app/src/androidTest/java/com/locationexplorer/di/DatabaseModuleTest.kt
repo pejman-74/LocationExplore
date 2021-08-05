@@ -8,18 +8,24 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import java.util.concurrent.Executors
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import javax.inject.Singleton
 
 @TestInstallIn(components = [SingletonComponent::class], replaces = [DatabaseModule::class])
 @Module
 object DatabaseModuleTest {
+    @ExperimentalCoroutinesApi
     @Singleton
     @Provides
     fun provideAppDatabase(
         @ApplicationContext context: Context,
+        coroutineDispatcher: TestCoroutineDispatcher
     ): AppDatabase =
         Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .allowMainThreadQueries().build()
+            .setTransactionExecutor(coroutineDispatcher.asExecutor())
+            .setQueryExecutor(coroutineDispatcher.asExecutor()).allowMainThreadQueries()
+            .build()
 }
 

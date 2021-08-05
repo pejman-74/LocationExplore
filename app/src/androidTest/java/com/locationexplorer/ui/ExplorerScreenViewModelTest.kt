@@ -7,6 +7,7 @@ import com.locationexplorer.data.database.AppDatabase
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.holder.IndexHolder
 import com.locationexplorer.data.repository.Repository
+import com.locationexplorer.data.wapper.LocationObserverStates
 import com.locationexplorer.data.wapper.Resource
 import com.locationexplorer.ui.screen.explorerscreen.ExplorerScreenViewModel
 import com.locationexplorer.util.location.FakeLocationObserver
@@ -157,10 +158,48 @@ class ExplorerScreenViewModelTest {
         assertThat(repository.getTotalResult()).isEqualTo(totalResult)
     }
 
+    /**
+     * when startObserveLocation() called should return data in venueAndLocations
+     * */
+    @Test
     fun startObserveLocation() = runBlockingTest {
-        assertThat(viewModel.venueAndLocation.value is Resource.Empty).isTrue()
         viewModel.startObserveLocation()
         assertThat(viewModel.venueAndLocation.value.data?.size).isEqualTo(1)
+    }
+    /**
+     * when startObserveLocation() called should set currentLocationObserveState
+     * */
+    @Test
+    fun startObserveLocation_set_currentLocationObserveState() = runBlockingTest {
+        viewModel.startObserveLocation()
+        assertThat(viewModel.currentLocationObserveState.value is LocationObserverStates.LocationChange).isTrue()
+    }
+    /**
+     * when getLastStoredLocation() called should return last location in lastStoredLocation
+     * */
+    @Test
+    fun getLastStoredLocation() = runBlockingTest {
+        viewModel.getLastStoredLocation()
+        assertThat(viewModel.lastStoredLocation.value).isEqualTo(simpleLocation)
+    }
+
+    /**
+     * when getCurrentLocation() called should return current success location in currentLocationResource
+     * */
+    @Test
+    fun getCurrentLocation_Success() = runBlockingTest {
+        viewModel.getCurrentLocation()
+        assertThat(viewModel.currentLocationResource.value is Resource.Success).isTrue()
+    }
+
+    /**
+     * when getCurrentLocation() called with null response should return current Error in currentLocationResource
+     * */
+    @Test
+    fun getCurrentLocation_Fail() = runBlockingTest {
+        fakeLocationObserver.currentLocation=null
+        viewModel.getCurrentLocation()
+        assertThat(viewModel.currentLocationResource.value is Resource.Error).isTrue()
     }
 
 }
