@@ -9,6 +9,7 @@ import com.locationexplorer.data.model.share.SimpleLocation
 import com.locationexplorer.data.repository.Repository
 import com.locationexplorer.data.wapper.LocationObserverStates
 import com.locationexplorer.data.wapper.Resource
+import com.locationexplorer.util.ext.emptyLocation
 import com.locationexplorer.util.location.LocationObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -25,7 +26,10 @@ class ExplorerScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val venueAndLocation = mutableStateOf<Resource<List<VenueAndLocation>>>(Resource.Empty())
-
+    val currentLocationResource =
+        mutableStateOf<Resource<SimpleLocation>>(Resource.Empty())
+    val currentLocationObserveState = mutableStateOf<LocationObserverStates?>(null)
+    val lastStoredLocation = mutableStateOf<SimpleLocation?>(emptyLocation)
     private var lastSimpleLocation: SimpleLocation? = null
 
     private suspend fun explore(
@@ -86,8 +90,26 @@ class ExplorerScreenViewModel @Inject constructor(
 
     fun startObserveLocation() = viewModelScope.launch(coroutineDispatcher) {
         locationObserver.startObserve().collect { locationState ->
+            currentLocationObserveState.value = locationState
             if (locationState is LocationObserverStates.LocationChange)
                 refreshLoad(locationState.simpleLocation)
         }
     }
+
+
+    suspend fun getLastStoredLocation() = viewModelScope.launch {
+        lastStoredLocation.value = repository.getLastLocation()
+    }
+
+
+    fun getCurrentLocation() = viewModelScope.launch(coroutineDispatcher) {
+        currentLocationResource.value = Resource.Loading()
+
+        val currentLocationResources = locationObserver.currentLocation()
+        currentLocationResource.value = if (currentLocationResources == null)
+            Resource.Error(throwable = Exception("can't get current location"))
+        else
+            Resource.Success(currentLocationResources)
+    }
+
 }
