@@ -37,7 +37,7 @@ class VenueDaoTest {
      * when inserted a venue then getAllVenues() called should return that(check insertion)
      * */
     @Test
-    fun t1() = runBlockingTest {
+    fun getAllVenues_should_return_data() = runBlockingTest {
         appDatabase.venueDao().insert(venue)
         val venueAndLocation = appDatabase.venueDao().getAllVenues()
         assertThat(venueAndLocation.first()).isEqualTo(venue)
@@ -47,7 +47,7 @@ class VenueDaoTest {
      * when inserted a venue then clear() called should clear table in database
      * */
     @Test
-    fun t2() = runBlockingTest {
+    fun clear_shoal_clara_data() = runBlockingTest {
         appDatabase.venueDao().insert(venue)
         appDatabase.venueDao().clear()
         val venueAndLocation = appDatabase.venueDao().getAllVenues()
@@ -58,7 +58,7 @@ class VenueDaoTest {
      * check relation between venue and location in database
      * */
     @Test
-    fun t3() = runBlockingTest {
+    fun check_relation() = runBlockingTest {
         appDatabase.venueDao().insert(venue)
         appDatabase.locationDao().insert(location)
         val venueAndLocation = appDatabase.venueDao().getVenuesAndLocations().first()

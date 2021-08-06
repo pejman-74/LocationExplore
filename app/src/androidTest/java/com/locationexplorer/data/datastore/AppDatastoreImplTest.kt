@@ -65,7 +65,7 @@ class AppDatastoreImplTest {
      * when getUserLastLocation() called for first time should return empty Location
      * */
     @Test
-    fun t1() = runBlockingTest {
+    fun getUserLastLocation_should_return_empty_location() = runBlockingTest {
         assertThat(appDatastore.getUserLastLocation()).isEqualTo(SimpleLocation(0.0, 0.0))
     }
 
@@ -73,7 +73,7 @@ class AppDatastoreImplTest {
      * when sets the last user location should return that
      * */
     @Test
-    fun t2() = runBlockingTest {
+    fun getUserLastLocation_should_return_data() = runBlockingTest {
         val dummySimpleLocation = SimpleLocation(1.0, 1.0)
         appDatastore.setUserLastLocation(dummySimpleLocation)
         assertThat(appDatastore.getUserLastLocation()).isEqualTo(dummySimpleLocation)
@@ -83,7 +83,7 @@ class AppDatastoreImplTest {
      * when getLastUpdateTime() called for first time should return 0
      * */
     @Test
-    fun t3() = runBlockingTest {
+    fun getLastUpdateTime_should_return_zero() = runBlockingTest {
         assertThat(appDatastore.getLastUpdateTime()).isEqualTo(0)
     }
 
@@ -91,7 +91,7 @@ class AppDatastoreImplTest {
      * when sets the lastUpdateTime should return that
      * */
     @Test
-    fun t4() = runBlockingTest {
+    fun lastUpdateTime_should_return_strode_data() = runBlockingTest {
         appDatastore.setLastUpdateTime(100)
         assertThat(appDatastore.getLastUpdateTime()).isEqualTo(100)
     }
