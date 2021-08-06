@@ -1,6 +1,7 @@
 package com.locationexplorer.di
 
 import com.locationexplorer.data.api.ExploreApi
+import com.locationexplorer.data.api.VenueDetailApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,4 +15,7 @@ object RemoteApiModule {
     @Singleton
     @Provides
     fun provideExploreApi(retrofit: Retrofit): ExploreApi = retrofit.create(ExploreApi::class.java)
+    @Singleton
+    @Provides
+    fun provideVenueDetailApi(retrofit: Retrofit): VenueDetailApi = retrofit.create(VenueDetailApi::class.java)
 }
