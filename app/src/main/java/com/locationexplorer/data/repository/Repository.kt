@@ -1,6 +1,7 @@
 package com.locationexplorer.data.repository
 
 import com.locationexplorer.data.database.relation.VenueAndLocation
+import com.locationexplorer.data.model.response.venue_api.VenueResponse
 import com.locationexplorer.data.model.share.SimpleLocation
 import com.locationexplorer.data.wapper.Resource
 import kotlinx.coroutines.flow.Flow
@@ -23,4 +24,5 @@ interface Repository {
     fun setOffset(index: Int)
     fun getTotalResult(): Int
     fun getOffset(): Int
+    suspend fun getVenueDetail(venueId: String): Resource<VenueResponse>
 }

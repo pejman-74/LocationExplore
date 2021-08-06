@@ -1,6 +1,7 @@
 package com.locationexplorer.di
 
 import com.locationexplorer.data.api.ExploreApi
+import com.locationexplorer.data.api.VenueDetailApi
 import com.locationexplorer.data.database.AppDatabase
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.holder.IndexHolder
@@ -20,10 +21,18 @@ object RepositoryModule {
     @Singleton
     fun provideRepository(
         exploreApi: ExploreApi,
+        venueDetailApi: VenueDetailApi,
         appDatabase: AppDatabase,
         appDatastore: AppDatastore,
         connectionChecker: ConnectionChecker,
         indexHolder: IndexHolder
     ): Repository =
-        RepositoryImpl(exploreApi, appDatabase, appDatastore, connectionChecker, indexHolder)
+        RepositoryImpl(
+            exploreApi,
+            venueDetailApi,
+            appDatabase,
+            appDatastore,
+            connectionChecker,
+            indexHolder
+        )
 }

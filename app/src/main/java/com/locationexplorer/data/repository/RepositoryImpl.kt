@@ -4,21 +4,25 @@ import androidx.room.withTransaction
 import com.locationexplorer.BuildConfig
 import com.locationexplorer.DATA_REFRESH_RATE
 import com.locationexplorer.data.api.ExploreApi
+import com.locationexplorer.data.api.VenueDetailApi
 import com.locationexplorer.data.database.AppDatabase
 import com.locationexplorer.data.database.relation.VenueAndLocation
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.holder.IndexHolder
 import com.locationexplorer.data.model.database.Location
 import com.locationexplorer.data.model.database.Venue
+import com.locationexplorer.data.model.response.venue_api.VenueResponse
 import com.locationexplorer.data.model.share.SimpleLocation
 import com.locationexplorer.data.wapper.Resource
 import com.locationexplorer.util.ext.networkBoundResource
+import com.locationexplorer.util.ext.simpleSafeApiCall
 import com.locationexplorer.util.network.ConnectionChecker
 import kotlinx.coroutines.flow.Flow
 
 
 class RepositoryImpl(
     private val exploreApi: ExploreApi,
+    private val venueDetailApi: VenueDetailApi,
     private val appDatabase: AppDatabase,
     private val appDatastore: AppDatastore,
     private val connectionChecker: ConnectionChecker,
@@ -146,6 +150,10 @@ class RepositoryImpl(
     override fun getOffset(): Int {
         return indexHolder.currentOffset
     }
+
+
+    override suspend fun getVenueDetail(venueId: String): Resource<VenueResponse> =
+        simpleSafeApiCall { venueDetailApi.venueDetail(venueId) }
 
 }
 
