@@ -1,4 +1,4 @@
-package com.locationexplorer.data.model.response
+package com.locationexplorer.data.model.response.explorer_api
 
 
 import com.squareup.moshi.Json

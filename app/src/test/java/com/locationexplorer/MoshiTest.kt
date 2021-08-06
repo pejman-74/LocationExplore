@@ -1,7 +1,7 @@
 package com.locationexplorer
 
 import com.google.common.truth.Truth.assertThat
-import com.locationexplorer.data.model.response.ExploreResponse
+import com.locationexplorer.data.model.response.explorer_api.ExploreResponse
 import com.locationexplorer.data.model.response.venue_api.VenueResponse
 import com.squareup.moshi.Moshi
 import org.junit.Test
