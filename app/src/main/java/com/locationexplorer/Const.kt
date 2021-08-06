@@ -12,3 +12,4 @@ const val LOCATION_UPDATE_RATE = 1000L //one second
 
 //Route
 const val EXPLORER_SCREEN_ROUTE = "ExplorerScreen"
+const val Venue_Detail_SCREEN_ROUTE = "VenueDetailScreen"

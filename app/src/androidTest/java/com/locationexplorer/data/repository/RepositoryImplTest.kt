@@ -5,6 +5,8 @@ import com.*
 import com.google.common.truth.Truth.assertThat
 import com.locationexplorer.data.api.ExploreApi
 import com.locationexplorer.data.api.FakeExploreApi
+import com.locationexplorer.data.api.FakeVenueDetailApi
+import com.locationexplorer.data.api.VenueDetailApi
 import com.locationexplorer.data.database.AppDatabase
 import com.locationexplorer.data.datastore.AppDatastore
 import com.locationexplorer.data.wapper.Resource
@@ -46,9 +48,13 @@ class RepositoryImplTest {
     @Inject
     lateinit var exploreApi: ExploreApi
 
+    @Inject
+    lateinit var venueDetailApi: VenueDetailApi
+
     private val fakeExploreApi: FakeExploreApi
         get() = exploreApi as FakeExploreApi
 
+    private val fakeVenueDetailApi:FakeVenueDetailApi get() = venueDetailApi as FakeVenueDetailApi
     private val fakeConnectionChecker: FakeConnectionChecker
         get() = connectionChecker as FakeConnectionChecker
 
@@ -208,5 +214,26 @@ class RepositoryImplTest {
         val resources =
             repository.explore(simpleLocation).take(2).toList()
         assertThat(resources.last() is Resource.Error).isTrue()
+    }
+
+    /**
+     * when getVenueDetail() called should return [Resource.Success]
+     * */
+    @Test
+    fun getVenueDetail_shouldReturnSuccessResult()= runBlockingTest {
+        val resources =
+            repository.getVenueDetail("")
+        assertThat(resources is Resource.Success).isTrue()
+    }
+
+    /**
+     * when getVenueDetail() called with ioException should return [Resource.Error]
+     * */
+    @Test
+    fun getVenueDetail_shouldReturnErrorResult()= runBlockingTest {
+        fakeVenueDetailApi.shouldThrowIoException=true
+        val resources =
+            repository.getVenueDetail("")
+        assertThat(resources is Resource.Error).isTrue()
     }
 }
