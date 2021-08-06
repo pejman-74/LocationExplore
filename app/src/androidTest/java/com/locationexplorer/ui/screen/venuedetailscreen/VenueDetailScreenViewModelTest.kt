@@ -42,7 +42,7 @@ class VenueDetailScreenViewModelTest {
     @Test
     fun getVenueDetail_withBlankId() = runBlockingTest {
         viewModel.getVenueDetail("")
-        assertThat(viewModel.venueDetail.value is Resource.Empty).isTrue()
+        assertThat(viewModel.venueDetailResource.value is Resource.Empty).isTrue()
     }
 
     /**
@@ -51,6 +51,6 @@ class VenueDetailScreenViewModelTest {
     @Test
     fun getVenueDetail_withCorrectId() = runBlockingTest {
         viewModel.getVenueDetail("11")
-        assertThat(viewModel.venueDetail.value is Resource.Success).isTrue()
+        assertThat(viewModel.venueDetailResource.value is Resource.Success).isTrue()
     }
 }

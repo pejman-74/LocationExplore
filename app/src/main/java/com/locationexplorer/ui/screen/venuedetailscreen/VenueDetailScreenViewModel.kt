@@ -7,23 +7,25 @@ import androidx.lifecycle.viewModelScope
 import com.locationexplorer.data.model.response.venue_api.VenueResponse
 import com.locationexplorer.data.repository.Repository
 import com.locationexplorer.data.wapper.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
+@HiltViewModel
 class VenueDetailScreenViewModel @Inject constructor(
     private val repository: Repository,
     @Named("immediateMain") private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val venueDetail: State<Resource<VenueResponse>> get() = _venueDetail
-    private val _venueDetail = mutableStateOf<Resource<VenueResponse>>(Resource.Empty())
+    val venueDetailResource: State<Resource<VenueResponse>> get() = _venueDetailResource
+    private val _venueDetailResource = mutableStateOf<Resource<VenueResponse>>(Resource.Empty())
 
     fun getVenueDetail(venueId: String) = viewModelScope.launch(coroutineDispatcher) {
         if (venueId.isBlank())
             return@launch
-        _venueDetail.value = Resource.Loading()
-        _venueDetail.value = repository.getVenueDetail(venueId)
+        _venueDetailResource.value = Resource.Loading()
+        _venueDetailResource.value = repository.getVenueDetail(venueId)
     }
 }
