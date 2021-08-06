@@ -2,6 +2,7 @@ package com.locationexplorer
 
 import com.google.common.truth.Truth.assertThat
 import com.locationexplorer.data.model.response.ExploreResponse
+import com.locationexplorer.data.model.response.venue_api.VenueResponse
 import com.squareup.moshi.Moshi
 import org.junit.Test
 
@@ -9,11 +10,15 @@ class MoshiTest {
 
     private val moshi: Moshi = Moshi.Builder().build()
 
+
+    private val rawSampleResponse =
+        "{\"meta\":{\"code\":200,\"requestId\":\"610d0cec9839074976e66cc6\"},\"response\":{\"warning\":{\"text\":\"There aren't a lot of results near you. Try something more general, reset your filters, or expand the search area.\"},\"suggestedRadius\":2430,\"headerLocation\":\"Minṭaqa 9\",\"headerFullLocation\":\"Minṭaqa 9, Tehrān\",\"headerLocationGranularity\":\"neighborhood\",\"totalResults\":70,\"suggestedBounds\":{\"ne\":{\"lat\":35.707570959403334,\"lng\":51.354370323094045},\"sw\":{\"lat\":35.704871299617885,\"lng\":51.314569252103595}},\"groups\":[{\"type\":\"Recommended Places\",\"name\":\"recommended\",\"items\":[{\"reasons\":{\"count\":0,\"items\":[{\"summary\":\"This spot is popular\",\"type\":\"general\",\"reasonName\":\"globalInteractionReason\"}]},\"venue\":{\"id\":\"541c74d2498edf1964aa7ae6\",\"name\":\"Tarasht Ice Cream | بستنی سنتی طرشت (بستنی سنتی طرشت)\",\"contact\":{},\"location\":{\"address\":\"Teymouri Blvd.\",\"crossStreet\":\"Teymouri Sq.\",\"lat\":35.70632390150395,\"lng\":51.352561183503575,\"labeledLatLngs\":[{\"label\":\"display\",\"lat\":35.70632390150395,\"lng\":51.352561183503575}],\"distance\":1474,\"cc\":\"IR\",\"city\":\"تهران\",\"state\":\"تهران\",\"country\":\"ایران\",\"formattedAddress\":[\"Teymouri Blvd. (Teymouri Sq.)\",\"تهران, تهران\",\"ایران\"]},\"categories\":[{\"id\":\"4bf58dd8d48988d1c9941735\",\"name\":\"Ice Cream Shop\",\"pluralName\":\"Ice Cream Shops\",\"shortName\":\"Ice Cream\",\"icon\":{\"prefix\":\"https:\\/\\/ss3.4sqi.net\\/img\\/categories_v2\\/food\\/icecream_\",\"suffix\":\".png\"},\"primary\":true}],\"stats\":{\"tipCount\":0,\"usersCount\":0,\"checkinsCount\":0,\"visitsCount\":0},\"beenHere\":{\"count\":0,\"lastCheckinExpiredAt\":0,\"marked\":false,\"unconfirmedCount\":0},\"hereNow\":{\"count\":0,\"summary\":\"Nobody here\",\"groups\":[]}},\"referralId\":\"e-1-541c74d2498edf1964aa7ae6-0\"},{\"reasons\":{\"count\":0,\"items\":[{\"summary\":\"This spot is popular\",\"type\":\"general\",\"reasonName\":\"globalInteractionReason\"}]},\"venue\":{\"id\":\"51167a3be4b05dd7c1840de4\",\"name\":\"Bahar Narenj Jegaraki | جگرکی بهار نارنج (جگرکی بهار نارنج)\",\"contact\":{},\"location\":{\"address\":\"Azimi St. Ekbatan Town\",\"lat\":35.70611835751727,\"lng\":51.31637839169407,\"labeledLatLngs\":[{\"label\":\"display\",\"lat\":35.70611835751727,\"lng\":51.31637839169407}],\"distance\":2079,\"cc\":\"IR\",\"neighborhood\":\"District 5\",\"city\":\"تهران\",\"state\":\"تهران\",\"country\":\"ایران\",\"formattedAddress\":[\"Azimi St. Ekbatan Town\",\"تهران, تهران\",\"ایران\"]},\"categories\":[{\"id\":\"58daa1558bbb0b01f18ec1c7\",\"name\":\"Jegaraki\",\"pluralName\":\"Jegarakis\",\"shortName\":\"Jegaraki\",\"icon\":{\"prefix\":\"https:\\/\\/ss3.4sqi.net\\/img\\/categories_v2\\/food\\/middleeastern_\",\"suffix\":\".png\"},\"primary\":true}],\"stats\":{\"tipCount\":0,\"usersCount\":0,\"checkinsCount\":0,\"visitsCount\":0},\"beenHere\":{\"count\":0,\"lastCheckinExpiredAt\":0,\"marked\":false,\"unconfirmedCount\":0},\"hereNow\":{\"count\":0,\"summary\":\"Nobody here\",\"groups\":[]}},\"referralId\":\"e-1-51167a3be4b05dd7c1840de4-1\"}]}]}}"
+
     /**
-     *Check moshi can convert sample api response to data classes
+     *Check moshi can convert sample explorer api response to data classes
      * */
     @Test
-    fun t1() {
+    fun testExploreResponse() {
         val exploreResponse = moshi.adapter(ExploreResponse::class.java).fromJson(rawSampleResponse)
         assertThat(exploreResponse?.response?.groups?.first()?.items?.size).isEqualTo(2)
         println(exploreResponse?.response?.groups?.first()?.items?.first()?.venue?.location)
@@ -21,176 +26,22 @@ class MoshiTest {
         assertThat(exploreResponse?.response?.groups?.first()?.items?.last()?.venue?.location?.address).isNotNull()
     }
 
-    private val rawSampleResponse = "{\n" +
-            "    \"meta\": {\n" +
-            "        \"code\": 200,\n" +
-            "        \"requestId\": \"6102527a467eec2d57969bd5\"\n" +
-            "    },\n" +
-            "    \"response\": {\n" +
-            "        \"warning\": {\n" +
-            "            \"text\": \"There aren't a lot of results near you. Try something more general, reset your filters, or expand the search area.\"\n" +
-            "        },\n" +
-            "        \"suggestedRadius\": 2431,\n" +
-            "        \"headerLocation\": \"Minṭaqa 9\",\n" +
-            "        \"headerFullLocation\": \"Minṭaqa 9, Tehrān\",\n" +
-            "        \"headerLocationGranularity\": \"neighborhood\",\n" +
-            "        \"totalResults\": 74,\n" +
-            "        \"suggestedBounds\": {\n" +
-            "            \"ne\": {\n" +
-            "                \"lat\": 35.71108850880026,\n" +
-            "                \"lng\": 51.35502341427818\n" +
-            "            },\n" +
-            "            \"sw\": {\n" +
-            "                \"lat\": 35.70735461217549,\n" +
-            "                \"lng\": 51.34507325914153\n" +
-            "            }\n" +
-            "        },\n" +
-            "        \"groups\": [\n" +
-            "            {\n" +
-            "                \"type\": \"Recommended Places\",\n" +
-            "                \"name\": \"recommended\",\n" +
-            "                \"items\": [\n" +
-            "                    {\n" +
-            "                        \"reasons\": {\n" +
-            "                            \"count\": 0,\n" +
-            "                            \"items\": [\n" +
-            "                                {\n" +
-            "                                    \"summary\": \"This spot is popular\",\n" +
-            "                                    \"type\": \"general\",\n" +
-            "                                    \"reasonName\": \"globalInteractionReason\"\n" +
-            "                                }\n" +
-            "                            ]\n" +
-            "                        },\n" +
-            "                        \"venue\": {\n" +
-            "                            \"id\": \"516f1f6a19a94eb3b5dc5e2f\",\n" +
-            "                            \"name\": \"Tarasht Dizi | دیزی سرای طرشت - ناصر قهرمانی (دیزی سرای طرشت - ناصر قهرمانی)\",\n" +
-            "                            \"contact\": {},\n" +
-            "                            \"location\": {\n" +
-            "                                \"address\": \"شمال میدان آزادی، خیابان شهید صالحی، چهار راه طرشت شمالی\",\n" +
-            "                                \"crossStreet\": \"انتهای کوچه اکبری٬ جنب حسینیه بزرگ\",\n" +
-            "                                \"lat\": 35.707524334749344,\n" +
-            "                                \"lng\": 51.34552553892047,\n" +
-            "                                \"labeledLatLngs\": [\n" +
-            "                                    {\n" +
-            "                                        \"label\": \"display\",\n" +
-            "                                        \"lat\": 35.707524334749344,\n" +
-            "                                        \"lng\": 51.34552553892047\n" +
-            "                                    }\n" +
-            "                                ],\n" +
-            "                                \"distance\": 1061,\n" +
-            "                                \"cc\": \"IR\",\n" +
-            "                                \"city\": \"تهران\",\n" +
-            "                                \"state\": \"تهران\",\n" +
-            "                                \"country\": \"ایران\",\n" +
-            "                                \"formattedAddress\": [\n" +
-            "                                    \"شمال میدان آزادی، خیابان شهید صالحی، چهار راه طرشت شمالی (انتهای کوچه اکبری٬ جنب حسینیه بزرگ)\",\n" +
-            "                                    \"تهران, تهران\",\n" +
-            "                                    \"ایران\"\n" +
-            "                                ]\n" +
-            "                            },\n" +
-            "                            \"categories\": [\n" +
-            "                                {\n" +
-            "                                    \"id\": \"58daa1558bbb0b01f18ec1c0\",\n" +
-            "                                    \"name\": \"Dizi Place\",\n" +
-            "                                    \"pluralName\": \"Dizi Places\",\n" +
-            "                                    \"shortName\": \"Dizi\",\n" +
-            "                                    \"icon\": {\n" +
-            "                                        \"prefix\": \"https://ss3.4sqi.net/img/categories_v2/food/middleeastern_\",\n" +
-            "                                        \"suffix\": \".png\"\n" +
-            "                                    },\n" +
-            "                                    \"primary\": true\n" +
-            "                                }\n" +
-            "                            ],\n" +
-            "                            \"stats\": {\n" +
-            "                                \"tipCount\": 0,\n" +
-            "                                \"usersCount\": 0,\n" +
-            "                                \"checkinsCount\": 0,\n" +
-            "                                \"visitsCount\": 0\n" +
-            "                            },\n" +
-            "                            \"beenHere\": {\n" +
-            "                                \"count\": 0,\n" +
-            "                                \"lastCheckinExpiredAt\": 0,\n" +
-            "                                \"marked\": false,\n" +
-            "                                \"unconfirmedCount\": 0\n" +
-            "                            },\n" +
-            "                            \"hereNow\": {\n" +
-            "                                \"count\": 0,\n" +
-            "                                \"summary\": \"Nobody here\",\n" +
-            "                                \"groups\": []\n" +
-            "                            }\n" +
-            "                        },\n" +
-            "                        \"referralId\": \"e-1-516f1f6a19a94eb3b5dc5e2f-0\"\n" +
-            "                    },\n" +
-            "                    {\n" +
-            "                        \"reasons\": {\n" +
-            "                            \"count\": 0,\n" +
-            "                            \"items\": [\n" +
-            "                                {\n" +
-            "                                    \"summary\": \"This spot is popular\",\n" +
-            "                                    \"type\": \"general\",\n" +
-            "                                    \"reasonName\": \"globalInteractionReason\"\n" +
-            "                                }\n" +
-            "                            ]\n" +
-            "                        },\n" +
-            "                        \"venue\": {\n" +
-            "                            \"id\": \"54071b1f498e852b08679295\",\n" +
-            "                            \"name\": \"Sarv Bakery & Pastry Shop | نان و شيرينی سرو\",\n" +
-            "                            \"contact\": {},\n" +
-            "                            \"location\": {\n" +
-            "                                \"address\": \"South Homayounshahr St.\",\n" +
-            "                                \"lat\": 35.71091878622641,\n" +
-            "                                \"lng\": 51.35457113449924,\n" +
-            "                                \"labeledLatLngs\": [\n" +
-            "                                    {\n" +
-            "                                        \"label\": \"display\",\n" +
-            "                                        \"lat\": 35.71091878622641,\n" +
-            "                                        \"lng\": 51.35457113449924\n" +
-            "                                    }\n" +
-            "                                ],\n" +
-            "                                \"distance\": 1910,\n" +
-            "                                \"cc\": \"IR\",\n" +
-            "                                \"country\": \"ایران\",\n" +
-            "                                \"formattedAddress\": [\n" +
-            "                                    \"South Homayounshahr St.\",\n" +
-            "                                    \"ایران\"\n" +
-            "                                ]\n" +
-            "                            },\n" +
-            "                            \"categories\": [\n" +
-            "                                {\n" +
-            "                                    \"id\": \"5744ccdfe4b0c0459246b4e2\",\n" +
-            "                                    \"name\": \"Pastry Shop\",\n" +
-            "                                    \"pluralName\": \"Pastry Shops\",\n" +
-            "                                    \"shortName\": \"Pastry\",\n" +
-            "                                    \"icon\": {\n" +
-            "                                        \"prefix\": \"https://ss3.4sqi.net/img/categories_v2/food/dessert_\",\n" +
-            "                                        \"suffix\": \".png\"\n" +
-            "                                    },\n" +
-            "                                    \"primary\": true\n" +
-            "                                }\n" +
-            "                            ],\n" +
-            "                            \"stats\": {\n" +
-            "                                \"tipCount\": 0,\n" +
-            "                                \"usersCount\": 0,\n" +
-            "                                \"checkinsCount\": 0,\n" +
-            "                                \"visitsCount\": 0\n" +
-            "                            },\n" +
-            "                            \"beenHere\": {\n" +
-            "                                \"count\": 0,\n" +
-            "                                \"lastCheckinExpiredAt\": 0,\n" +
-            "                                \"marked\": false,\n" +
-            "                                \"unconfirmedCount\": 0\n" +
-            "                            },\n" +
-            "                            \"hereNow\": {\n" +
-            "                                \"count\": 0,\n" +
-            "                                \"summary\": \"Nobody here\",\n" +
-            "                                \"groups\": []\n" +
-            "                            }\n" +
-            "                        },\n" +
-            "                        \"referralId\": \"e-1-54071b1f498e852b08679295-1\"\n" +
-            "                    }\n" +
-            "                ]\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    }\n" +
-            "}"
+    private val venueApiSampleResponse =
+        "{\"meta\":{\"code\":200,\"requestId\":\"610cf15260e17522d31a8b38\"},\"response\":{\"venue\":{\"id\":\"56dd2da9498e60abde9c2b0f\",\"name\":\"Gol-e Gandom Dizi Place | دیزی سرای گل گندم\",\"contact\":{},\"location\":{\"address\":\"شهرک اکباتان، بیمه چهارم، بالاتر از پارک مینا، پلاک ۱۱۷\",\"lat\":35.70702307908398,\"lng\":51.31716460382234,\"labeledLatLngs\":[{\"label\":\"display\",\"lat\":35.70702307908398,\"lng\":51.31716460382234}],\"cc\":\"IR\",\"city\":\"تهران\",\"state\":\"تهران\",\"country\":\"ایران\",\"formattedAddress\":[\"شهرک اکباتان، بیمه چهارم، بالاتر از پارک مینا، پلاک ۱۱۷\",\"تهران, تهران\",\"ایران\"]},\"canonicalUrl\":\"https:\\/\\/foursquare.com\\/v\\/gole-gandom-dizi-place--%D8%AF%DB%8C%D8%B2%DB%8C-%D8%B3%D8%B1%D8%A7%DB%8C-%DA%AF%D9%84-%DA%AF%D9%86%D8%AF%D9%85\\/56dd2da9498e60abde9c2b0f\",\"categories\":[{\"id\":\"4bf58dd8d48988d143941735\",\"name\":\"Breakfast Spot\",\"pluralName\":\"Breakfast Spots\",\"shortName\":\"Breakfast\",\"icon\":{\"prefix\":\"https:\\/\\/ss3.4sqi.net\\/img\\/categories_v2\\/food\\/breakfast_\",\"suffix\":\".png\"},\"primary\":true},{\"id\":\"4bf58dd8d48988d147941735\",\"name\":\"Diner\",\"pluralName\":\"Diners\",\"shortName\":\"Diner\",\"icon\":{\"prefix\":\"https:\\/\\/ss3.4sqi.net\\/img\\/categories_v2\\/food\\/diner_\",\"suffix\":\".png\"}}],\"stats\":{\"tipCount\":11,\"usersCount\":0,\"checkinsCount\":0,\"visitsCount\":0},\"likes\":{\"count\":22,\"groups\":[{\"type\":\"others\",\"count\":22,\"items\":[]}],\"summary\":\"22 Likes\"},\"dislike\":false,\"ok\":false,\"allowMenuUrlEdit\":true,\"beenHere\":{\"count\":0,\"lastCheckinExpiredAt\":0,\"marked\":false,\"unconfirmedCount\":0},\"specials\":{\"count\":0,\"items\":[]},\"reasons\":{\"count\":0,\"items\":[]},\"hereNow\":{\"count\":0,\"summary\":\"Nobody here\",\"groups\":[]},\"createdAt\":1457335721,\"shortUrl\":\"http:\\/\\/4sq.com\\/1QEX6sd\",\"timeZone\":\"Asia\\/Tehran\",\"listed\":{\"count\":12,\"groups\":[{\"type\":\"others\",\"name\":\"Lists from other people\",\"count\":12,\"items\":[{\"id\":\"5c442f49c58ed7002c699bc2\",\"name\":\"To go\",\"description\":\"\",\"type\":\"others\",\"user\":{\"firstName\":\"Yassin\",\"lastName\":\"A\",\"countryCode\":\"IR\"},\"editable\":false,\"public\":true,\"collaborative\":false,\"url\":\"\\/user\\/133999759\\/list\\/to-go\",\"canonicalUrl\":\"https:\\/\\/foursquare.com\\/user\\/133999759\\/list\\/to-go\",\"createdAt\":1547972425,\"updatedAt\":1548402839,\"photo\":{\"id\":\"59b7bb459be5223cd0a28bfb\",\"createdAt\":1505213253,\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/175467132_NZY-fZxNFSqb4Q1Ww07T-ZDTxzl4uvLFRP1hHneYEFM.jpg\",\"width\":540,\"height\":960,\"visibility\":\"public\"},\"followers\":{\"count\":0},\"listItems\":{\"count\":8,\"items\":[{\"id\":\"v56dd2da9498e60abde9c2b0f\",\"createdAt\":1547972425,\"photo\":{\"id\":\"59b7bb459be5223cd0a28bfb\",\"createdAt\":1505213253,\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/175467132_NZY-fZxNFSqb4Q1Ww07T-ZDTxzl4uvLFRP1hHneYEFM.jpg\",\"width\":540,\"height\":960,\"visibility\":\"public\"}}]}},{\"id\":\"570f2367498ec74c3ddcafd5\",\"name\":\"خسته\\u200cهای باصفا\",\"description\":\"\",\"type\":\"others\",\"user\":{\"firstName\":\"Vahid\",\"lastName\":\"M\",\"countryCode\":\"IR\"},\"editable\":false,\"public\":true,\"collaborative\":false,\"url\":\"\\/user\\/65569200\\/list\\/%D8%AE%D8%B3%D8%AA%D9%87%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D8%B5%D9%81%D8%A7\",\"canonicalUrl\":\"https:\\/\\/foursquare.com\\/user\\/65569200\\/list\\/%D8%AE%D8%B3%D8%AA%D9%87%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D8%B5%D9%81%D8%A7\",\"createdAt\":1460609895,\"updatedAt\":1524314531,\"photo\":{\"id\":\"55e591cc498e295a081e904c\",\"createdAt\":1441108428,\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/65569200_0dhq9J6AiSDvDMdMUe8yOzhC9bJsBHyWjqDtDysuNxc.jpg\",\"width\":720,\"height\":960,\"visibility\":\"public\"},\"followers\":{\"count\":1},\"listItems\":{\"count\":36,\"items\":[{\"id\":\"v56dd2da9498e60abde9c2b0f\",\"createdAt\":1524314531}]}},{\"id\":\"5b23706e356b49002cdaaf84\",\"name\":\"دیزی\",\"description\":\"آبگوشت\",\"type\":\"others\",\"user\":{\"firstName\":\"Arian\",\"lastName\":\"M\",\"countryCode\":\"IR\"},\"editable\":false,\"public\":true,\"collaborative\":false,\"url\":\"\\/user\\/126363425\\/list\\/%D8%AF%DB%8C%D8%B2%DB%8C\",\"canonicalUrl\":\"https:\\/\\/foursquare.com\\/user\\/126363425\\/list\\/%D8%AF%DB%8C%D8%B2%DB%8C\",\"createdAt\":1529049198,\"updatedAt\":1529050090,\"photo\":{\"id\":\"5ac0aa8f9cadd93b8c0f3e09\",\"createdAt\":1522576015,\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/449439859_qKlmKsNzCPg-57J6ci_Xt1U01wUUBvjPNcD2vmhDdtI.jpg\",\"width\":1440,\"height\":1920,\"visibility\":\"public\"},\"followers\":{\"count\":0},\"listItems\":{\"count\":21,\"items\":[{\"id\":\"v56dd2da9498e60abde9c2b0f\",\"createdAt\":1529049814}]}},{\"id\":\"59e4f19e2be425017399e03a\",\"name\":\"Favorite\",\"description\":\"\",\"type\":\"others\",\"user\":{\"firstName\":\"\",\"countryCode\":\"IR\"},\"editable\":false,\"public\":true,\"collaborative\":false,\"url\":\"\\/user\\/462660830\\/list\\/favorite\",\"canonicalUrl\":\"https:\\/\\/foursquare.com\\/user\\/462660830\\/list\\/favorite\",\"createdAt\":1508176286,\"updatedAt\":1508176497,\"photo\":{\"id\":\"59a04f45d8fe7a08a3e0184c\",\"createdAt\":1503678277,\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/415796898_FumRwUi0q0rM3fjtd_OSq6uetu7dBZZFK9Swk4x0OGw.jpg\",\"width\":1440,\"height\":1920,\"visibility\":\"public\"},\"followers\":{\"count\":0},\"listItems\":{\"count\":6,\"items\":[{\"id\":\"v56dd2da9498e60abde9c2b0f\",\"createdAt\":1508176382}]}}]}]},\"seasonalHours\":[],\"pageUpdates\":{\"count\":0,\"items\":[]},\"inbox\":{\"count\":0,\"items\":[]},\"venueChains\":[],\"attributes\":{\"groups\":[{\"type\":\"price\",\"name\":\"Price\",\"summary\":\"\$\",\"count\":1,\"items\":[{\"displayName\":\"Price\",\"displayValue\":\"\$\",\"priceTier\":1}]},{\"type\":\"serves\",\"name\":\"Menus\",\"summary\":\"Breakfast\",\"count\":8,\"items\":[{\"displayName\":\"Breakfast\",\"displayValue\":\"Breakfast\"}]}]},\"bestPhoto\":{\"id\":\"5d69282b6c6d240008ca37c5\",\"createdAt\":1567172651,\"source\":{\"name\":\"Swarm for iOS\",\"url\":\"https:\\/\\/www.swarmapp.com\"},\"prefix\":\"https:\\/\\/fastly.4sqi.net\\/img\\/general\\/\",\"suffix\":\"\\/182403164_QzfOLr0p_oMz4Cjj-tPZivQD9LMW8UAVPgSAwW-Hpgc.jpg\",\"width\":1440,\"height\":1920,\"visibility\":\"public\"},\"colors\":{\"highlightColor\":{\"photoId\":\"5d69282b6c6d240008ca37c5\",\"value\":-15196136},\"highlightTextColor\":{\"photoId\":\"5d69282b6c6d240008ca37c5\",\"value\":-1},\"algoVersion\":3}}}}"
+
+    /**
+     *Check moshi can convert sample venue api response to data classes
+     * */
+    @Test
+    fun testVenueResponse() {
+        val venueResponse =
+            moshi.adapter(VenueResponse::class.java).fromJson(venueApiSampleResponse)
+        assertThat(venueResponse?.response?.venue?.name).isEqualTo("Gol-e Gandom Dizi Place | دیزی سرای گل گندم")
+        assertThat(venueResponse?.response?.venue?.bestPhoto?.id).isEqualTo("5d69282b6c6d240008ca37c5")
+        assertThat(venueResponse?.response?.venue?.categories?.size).isEqualTo(2)
+        assertThat(venueResponse?.response?.venue?.contact?.phone).isNull()
+        assertThat(venueResponse?.response?.venue?.location?.address).isEqualTo("شهرک اکباتان، بیمه چهارم، بالاتر از پارک مینا، پلاک ۱۱۷")
+        assertThat(venueResponse?.response?.venue?.likes?.count).isEqualTo(22)
+        assertThat(venueResponse?.response?.venue?.listed?.count).isEqualTo(12)
+    }
 }
