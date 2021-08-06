@@ -9,3 +9,6 @@ const val DATASTORE_NAME = "LocationExplorerDataStore"
 const val DATA_REFRESH_RATE = 86400000//one day
 const val MIN_DISTANCE_LOCATION_UPDATE_RATE = 100F//meter
 const val LOCATION_UPDATE_RATE = 1000L //one second
+
+//Route
+const val EXPLORER_SCREEN_ROUTE = "ExplorerScreen"
