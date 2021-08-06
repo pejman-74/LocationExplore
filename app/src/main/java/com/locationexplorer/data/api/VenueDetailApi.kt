@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface VenueDetailApi {
 
-    @GET("/venues/{venueId}")
+    @GET("venues/{venueId}")
     suspend fun venueDetail(
         @Path("venueId") venueId: String,
         @Query("client_id") clientId: String = BuildConfig.CLIENT_ID,
