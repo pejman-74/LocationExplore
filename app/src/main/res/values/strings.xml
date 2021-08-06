@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">LocationExplorer</string>
+    <string name="permission_request_message">The location is important for this app.\n Please grant the permission</string>
+    <string name="permission_positive_button">Request permission</string>
+    <string name="permission_negative_button">Close</string>
+    <string name="location_request_message">Location is off.\nCan\'t find any location for first time</string>
+    <string name="location_positive_button">Yes</string>
+    <string name="location_negative_button">Close</string>
+    <string name="default_top_appbar">Top Locations</string>
+    <string name="finding_location_top_appbar">Finding location..</string>
+    <string name="finding_location_failed_top_appbar">Location finding failed</string>
+    <string name="unknown_api_error">Error occurred in api call</string>
+    <string name="no_connection_error">Check your connection</string>
 </resources>
