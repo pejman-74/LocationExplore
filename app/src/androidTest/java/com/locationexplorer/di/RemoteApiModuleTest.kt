@@ -2,6 +2,8 @@ package com.locationexplorer.di
 
 import com.locationexplorer.data.api.ExploreApi
 import com.locationexplorer.data.api.FakeExploreApi
+import com.locationexplorer.data.api.FakeVenueDetailApi
+import com.locationexplorer.data.api.VenueDetailApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -15,4 +17,8 @@ object RemoteApiModuleTest {
     @Singleton
     @Provides
     fun provideExploreApi(moshi: Moshi): ExploreApi = FakeExploreApi(moshi)
+
+    @Singleton
+    @Provides
+    fun provideVenueDetailApi(moshi: Moshi): VenueDetailApi = FakeVenueDetailApi(moshi)
 }
