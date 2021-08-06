@@ -1,4 +1,4 @@
-package com.locationexplorer.ui
+package com.locationexplorer.ui.screen.explorerscreen
 
 import com.google.common.truth.Truth.assertThat
 import com.locationexplorer.PAGE_SIZE

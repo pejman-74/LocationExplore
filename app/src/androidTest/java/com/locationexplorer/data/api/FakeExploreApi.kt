@@ -1,7 +1,7 @@
 package com.locationexplorer.data.api
 
 import com.firstPageJson
-import com.locationexplorer.data.model.response.ExploreResponse
+import com.locationexplorer.data.model.response.explorer_api.ExploreResponse
 import com.squareup.moshi.Moshi
 import java.io.IOException
 

@@ -4,9 +4,7 @@ import com.locationexplorer.API_VERSION
 import com.locationexplorer.BuildConfig
 import com.locationexplorer.DEFAULT_SECTION
 import com.locationexplorer.PAGE_SIZE
-import com.locationexplorer.data.model.response.ExploreResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import com.locationexplorer.data.model.response.explorer_api.ExploreResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

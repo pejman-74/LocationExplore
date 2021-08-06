@@ -36,7 +36,7 @@ class LocationDaoTest {
      * when inserted a location then getAllLocations() called should return that(check insertion)
      * */
     @Test
-    fun t1() = runBlockingTest {
+    fun getAllLocations_should_return_data() = runBlockingTest {
         appDatabase.locationDao().insert(location)
         val locations = appDatabase.locationDao().getAllLocations()
         Truth.assertThat(locations.first()).isEqualTo(location)
@@ -46,7 +46,7 @@ class LocationDaoTest {
      * when inserted a location then clear() called should clear table in database
      * */
     @Test
-    fun t2() = runBlockingTest {
+    fun clear_should_clear_data() = runBlockingTest {
         appDatabase.locationDao().insert(location)
         appDatabase.locationDao().clear()
         val locations = appDatabase.locationDao().getAllLocations()
