@@ -9,7 +9,6 @@ import com.locationexplorer.data.model.share.SimpleLocation
 import com.locationexplorer.data.repository.Repository
 import com.locationexplorer.data.wapper.LocationObserverStates
 import com.locationexplorer.data.wapper.Resource
-import com.locationexplorer.util.ext.emptyLocation
 import com.locationexplorer.util.location.LocationObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -29,7 +28,6 @@ class ExplorerScreenViewModel @Inject constructor(
     val currentLocationResource =
         mutableStateOf<Resource<SimpleLocation>>(Resource.Empty())
     val currentLocationObserveState = mutableStateOf<LocationObserverStates?>(null)
-    val lastStoredLocation = mutableStateOf<SimpleLocation?>(emptyLocation)
     private var lastSimpleLocation: SimpleLocation? = null
 
     private suspend fun explore(
@@ -79,6 +77,10 @@ class ExplorerScreenViewModel @Inject constructor(
             val nextPageOffset =
                 calcNextPageOffset(repository.getOffset(), repository.getTotalResult())
 
+            //check end reached
+            if (nextPageOffset == repository.getOffset())
+                return@launch
+
             //load next page and should NOT clear previous data's in db
             explore(
                 simpleLocation = simpleLocation,
@@ -94,11 +96,6 @@ class ExplorerScreenViewModel @Inject constructor(
             if (locationState is LocationObserverStates.LocationChange)
                 refreshLoad(locationState.simpleLocation)
         }
-    }
-
-
-    suspend fun getLastStoredLocation() = viewModelScope.launch(coroutineDispatcher) {
-        lastStoredLocation.value = repository.getLastLocation()
     }
 
 

@@ -98,6 +98,7 @@ class ExplorerScreenViewModelTest {
      * */
     @Test
     fun loadNextPage_shouldReturnData() = runBlockingTest {
+        viewModel.refreshLoad(simpleLocation)
         viewModel.loadNextPage(simpleLocation)
         val results = viewModel.venueAndLocation.value
         assertThat(results.data?.size).isEqualTo(1)
@@ -118,8 +119,9 @@ class ExplorerScreenViewModelTest {
      * */
     @Test
     fun loadNextPage_shouldSetIndexes() = runBlockingTest {
+        viewModel.refreshLoad(simpleLocation)
         viewModel.loadNextPage(simpleLocation)
-        assertThat(repository.getOffset()).isEqualTo(0)
+        assertThat(repository.getOffset()).isEqualTo(20)
         assertThat(repository.getTotalResult()).isEqualTo(totalResult)
     }
 
@@ -136,7 +138,7 @@ class ExplorerScreenViewModelTest {
     @Test
     fun loadNextPage_callMultipleTimeShouldSetIndexesCorrectly() = runBlockingTest {
 
-        viewModel.loadNextPage(simpleLocation)
+        viewModel.refreshLoad(simpleLocation)
         assertThat(repository.getOffset()).isEqualTo(0)
         assertThat(repository.getTotalResult()).isEqualTo(totalResult)
 
@@ -173,14 +175,6 @@ class ExplorerScreenViewModelTest {
     fun startObserveLocation_set_currentLocationObserveState() = runBlockingTest {
         viewModel.startObserveLocation()
         assertThat(viewModel.currentLocationObserveState.value is LocationObserverStates.LocationChange).isTrue()
-    }
-    /**
-     * when getLastStoredLocation() called should return last location in lastStoredLocation
-     * */
-    @Test
-    fun getLastStoredLocation() = runBlockingTest {
-        viewModel.getLastStoredLocation()
-        assertThat(viewModel.lastStoredLocation.value).isEqualTo(simpleLocation)
     }
 
     /**
