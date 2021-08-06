@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -49,7 +50,7 @@ fun VenueDetailScreen(
                     Icon(Icons.Filled.ArrowBack, "Back")
                 }
                 Text(
-                    text = "Location Detail",
+                    text = stringResource(R.string.venue_detail_top_app_bar),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(start = 8.dp)
                 )
@@ -79,7 +80,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Name:")
+                                append(stringResource(R.string.name))
                             }
                             append(it)
                         })
@@ -92,7 +93,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Category:")
+                                append(stringResource(R.string.category))
                             }
                             append(it)
                         })
@@ -105,7 +106,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Address:")
+                                append(stringResource(R.string.address))
                             }
                             append(it)
                         })
@@ -118,7 +119,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Phone:")
+                                append(stringResource(R.string.phone))
                             }
                             append(it)
                         })
@@ -131,7 +132,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Like count:")
+                                append(stringResource(R.string.like_count))
                             }
                             append(it.toString())
                         })
@@ -145,7 +146,7 @@ fun VenueDetailScreen(
                                     color = MaterialTheme.colors.primary
                                 )
                             ) {
-                                append("Short link:")
+                                append(stringResource(R.string.short_link))
                             }
                             append(it)
                         })

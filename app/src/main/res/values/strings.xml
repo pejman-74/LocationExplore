@@ -11,4 +11,11 @@
     <string name="finding_location_failed_top_appbar">Location finding failed</string>
     <string name="unknown_api_error">Error occurred in api call</string>
     <string name="no_connection_error">Check your connection</string>
+    <string name="venue_detail_top_app_bar">Location Detail</string>
+    <string name="name">Name: </string>
+    <string name="category">Category: </string>
+    <string name="address">Address: </string>
+    <string name="phone">Phone: </string>
+    <string name="like_count">Like count: </string>
+    <string name="short_link">Short link: </string>
 </resources>
