@@ -1,5 +1,6 @@
 package com.locationexplorer.ui.screen.explorerscreen
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,13 +22,20 @@ import javax.inject.Named
 class ExplorerScreenViewModel @Inject constructor(
     private val repository: Repository,
     private val locationObserver: LocationObserver,
-    @Named("immediateMain") private val coroutineDispatcher: CoroutineDispatcher
+    @Named("immediateMain") private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val venueAndLocation = mutableStateOf<Resource<List<VenueAndLocation>>>(Resource.Empty())
-    val currentLocationResource =
+    private val _venueAndLocation =
+        mutableStateOf<Resource<List<VenueAndLocation>>>(Resource.Empty())
+    val venueAndLocation: State<Resource<List<VenueAndLocation>>> get() = _venueAndLocation
+
+    private val _currentLocationResource =
         mutableStateOf<Resource<SimpleLocation>>(Resource.Empty())
-    val currentLocationObserveState = mutableStateOf<LocationObserverStates?>(null)
+    val currentLocationResource: State<Resource<SimpleLocation>> = _currentLocationResource
+
+    private val _currentLocationObserveState = mutableStateOf<LocationObserverStates?>(null)
+    val currentLocationObserveState: State<LocationObserverStates?> get() = _currentLocationObserveState
+
     private var lastSimpleLocation: SimpleLocation? = null
 
     private suspend fun explore(
@@ -49,7 +57,7 @@ class ExplorerScreenViewModel @Inject constructor(
             repository.setLastUpdate(System.currentTimeMillis())
 
         }.collect {
-            venueAndLocation.value = it
+            _venueAndLocation.value = it
         }
     }
 
@@ -61,7 +69,7 @@ class ExplorerScreenViewModel @Inject constructor(
             offset
 
 
-    fun refreshLoad(simpleLocation: SimpleLocation) = viewModelScope.launch(coroutineDispatcher) {
+    fun refreshLoad(simpleLocation: SimpleLocation) = viewModelScope.launch(mainDispatcher) {
         lastSimpleLocation = simpleLocation
         //load first page and if successfully loaded should clear previous data's in db
         explore(simpleLocation)
@@ -69,7 +77,7 @@ class ExplorerScreenViewModel @Inject constructor(
 
 
     fun loadNextPage(simpleLocation: SimpleLocation? = lastSimpleLocation) =
-        viewModelScope.launch(coroutineDispatcher) {
+        viewModelScope.launch(mainDispatcher) {
 
             if (simpleLocation == null)
                 return@launch
@@ -90,20 +98,20 @@ class ExplorerScreenViewModel @Inject constructor(
             )
         }
 
-    fun startObserveLocation() = viewModelScope.launch(coroutineDispatcher) {
+    fun startObserveLocation() = viewModelScope.launch(mainDispatcher) {
         locationObserver.startObserve().collect { locationState ->
-            currentLocationObserveState.value = locationState
+            _currentLocationObserveState.value = locationState
             if (locationState is LocationObserverStates.LocationChange)
                 refreshLoad(locationState.simpleLocation)
         }
     }
 
 
-    fun getCurrentLocation() = viewModelScope.launch(coroutineDispatcher) {
-        currentLocationResource.value = Resource.Loading()
+    fun getCurrentLocation() = viewModelScope.launch(mainDispatcher) {
+        _currentLocationResource.value = Resource.Loading()
 
         val currentLocationResources = locationObserver.currentLocation()
-        currentLocationResource.value = if (currentLocationResources == null)
+        _currentLocationResource.value = if (currentLocationResources == null)
             Resource.Error(throwable = Exception("can't get current location"))
         else
             Resource.Success(currentLocationResources)
