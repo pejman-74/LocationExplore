@@ -7,9 +7,10 @@ Dao's-Datastore-'repository'-view model.<br>
 For using real database in tests written in Instrumented test(AndroidTest).
 
 **Build reqirments:**<br>
+[Create account](https://foursquare.com/developers/) <br>
 Put API keys to your **local.properties.**<br>
-`CLIENT_ID=WDLSD5XICJ5L4PBYE5BHAD5CTULYPTFEXH1WQLKUUHATKVES ` <br>
-`CLINET_SECRET=Y2VCDS0GEFAQP4SHW2VICU3RCC4TGYQIKSSA2Y3UQ2NQWIVE `<br>
+`CLIENT_ID=PUT_YOUR_CLINET_ID ` <br>
+`CLINET_SECRET=PUT_YOUR_CLINET_SECRET `<br>
 
 **Additional explanations**<br>
 Sorry for the delay. During this time, I was involved with several interviews and code challenge.<br>
