@@ -16,13 +16,13 @@ import javax.inject.Named
 @HiltViewModel
 class VenueDetailScreenViewModel @Inject constructor(
     private val repository: Repository,
-    @Named("immediateMain") private val coroutineDispatcher: CoroutineDispatcher
+    @Named("immediateMain") private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val venueDetailResource: State<Resource<VenueResponse>> get() = _venueDetailResource
     private val _venueDetailResource = mutableStateOf<Resource<VenueResponse>>(Resource.Empty())
 
-    fun getVenueDetail(venueId: String) = viewModelScope.launch(coroutineDispatcher) {
+    fun getVenueDetail(venueId: String) = viewModelScope.launch(mainDispatcher) {
         if (venueId.isBlank())
             return@launch
         _venueDetailResource.value = Resource.Loading()
