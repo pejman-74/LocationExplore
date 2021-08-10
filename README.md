@@ -12,8 +12,5 @@ Put API keys to your **local.properties.**<br>
 `CLIENT_ID=PUT_YOUR_CLINET_ID ` <br>
 `CLINET_SECRET=PUT_YOUR_CLINET_SECRET `<br>
 
-**Additional explanations**<br>
-Sorry for the delay. During this time, I was involved with several interviews and code challenge.<br>
-Of course this is not my best performance.But that's me :)
 
 
